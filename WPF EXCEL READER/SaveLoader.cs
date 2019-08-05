@@ -22,7 +22,7 @@ namespace WPF_EXCEL_READER
             
         }
 
-        public static void WriteToSave(Customer _customers)
+        public static void WriteToExistingSave(Customer _customers)
         {
             using (StreamWriter file = File.CreateText(@"C:\Users\Jackson\Desktop\save.txt"))
             {

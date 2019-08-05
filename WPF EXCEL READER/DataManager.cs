@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Collections.ObjectModel;
 namespace WPF_EXCEL_READER
 {
-    class DataManager
+
+
+    public class DataManager
     {
-        private static List<Customer> customers = new List<Customer>();
+        private static ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
 
         public static void AddCustomer(Customer c)
         {
@@ -16,9 +18,12 @@ namespace WPF_EXCEL_READER
         }
         public static void AddCustomer(List<Customer> l)
         {
-            customers.AddRange(l);
+            foreach(Customer c in l)
+            {
+                customers.Add(c);
+            }     
         }
-        public static List<Customer> GetAllCustomers()
+        public static ObservableCollection<Customer> GetAllCustomers()
         {
             return customers;
         }

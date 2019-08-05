@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPF_EXCEL_READER
 {
-    struct Customer
+    public struct Customer
     {
         public int Id { get; set; }
         public string Name { get; set; }

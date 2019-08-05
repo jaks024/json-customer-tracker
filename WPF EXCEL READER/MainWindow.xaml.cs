@@ -37,7 +37,10 @@ namespace WPF_EXCEL_READER
                 pathTextBlock.Text = openFileDialog.FileName;
                 DataManager.AddCustomer(SaveLoader.ReadSave(openFileDialog.FileName));
                 UpdateItemCountText();
+
+                CustomerListBox.Items.Clear();
                 CustomerListBox.ItemsSource = DataManager.GetAllCustomers();
+
             }
         }
 
@@ -46,6 +49,7 @@ namespace WPF_EXCEL_READER
         {
             pathTextBlock.Text = "";
             DataManager.ClearDataPresent();
+            CustomerListBox.ItemsSource = null;
             UpdateItemCountText();
         }
 
@@ -71,6 +75,22 @@ namespace WPF_EXCEL_READER
 
             DataManager.AddCustomer(c);
             UpdateItemCountText();
+
+            ClearTextBoxInputs();
+        }
+
+        private void ClearNewCustomerFieldsOnClick(object sender, RoutedEventArgs e)
+        {
+            ClearTextBoxInputs();
+        }
+
+        private void ClearTextBoxInputs()
+        {
+            nameTextBox.Clear();
+            phoneNumberTextBox.Clear();
+            streetTextBox.Clear();
+            cityTextBox.Clear();
+            postalTextBox.Clear();
         }
     }
 }
