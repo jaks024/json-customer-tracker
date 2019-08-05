@@ -7,38 +7,37 @@ using System.Collections.ObjectModel;
 namespace WPF_EXCEL_READER
 {
 
-
     public class DataManager
     {
-        private static ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
+        public ObservableCollection<Customer> customers { get; } = new ObservableCollection<Customer>();
 
-        public static void AddCustomer(Customer c)
+        public void AddCustomer(Customer c)
         {
-            customers.Add(c);
+            this.customers.Add(c);
         }
-        public static void AddCustomer(List<Customer> l)
+        public void AddCustomer(List<Customer> l)
         {
             foreach(Customer c in l)
             {
-                customers.Add(c);
+                this.customers.Add(c);
             }     
         }
-        public static ObservableCollection<Customer> GetAllCustomers()
+        public ObservableCollection<Customer> GetAllCustomers()
         {
             return customers;
         }
 
-        public static void ClearDataPresent()
+        public void ClearDataPresent()
         {
             customers.Clear();
         }
 
 
-        public static string GetListCount()
+        public string GetListCount()
         {
             return customers.Count.ToString();
         }
-        public static string GetCustomersToString()
+        public string GetCustomersToString()
         {
             string s = "";
             foreach(Customer c in customers)

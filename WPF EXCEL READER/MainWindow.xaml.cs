@@ -21,9 +21,12 @@ namespace WPF_EXCEL_READER
     /// </summary>
     public partial class MainWindow : Window
     {
+        public DataManager dm = new DataManager();
+        public string currentSavePath = "";
         public MainWindow()
         {
             InitializeComponent();
+            CustomerListBox.DataContext = dm;
         }
 
         //load json save file into DataManager
@@ -35,12 +38,9 @@ namespace WPF_EXCEL_READER
             if (openFileDialog.ShowDialog() == true)
             {
                 pathTextBlock.Text = openFileDialog.FileName;
-                DataManager.AddCustomer(SaveLoader.ReadSave(openFileDialog.FileName));
+                currentSavePath = openFileDialog.FileName;
+                dm.AddCustomer(SaveLoader.ReadSave(currentSavePath));
                 UpdateItemCountText();
-
-                CustomerListBox.Items.Clear();
-                CustomerListBox.ItemsSource = DataManager.GetAllCustomers();
-
             }
         }
 
@@ -48,15 +48,14 @@ namespace WPF_EXCEL_READER
         private void BtnClearFile_Click(object sender, RoutedEventArgs e)
         {
             pathTextBlock.Text = "";
-            DataManager.ClearDataPresent();
-            CustomerListBox.ItemsSource = null;
+            dm.ClearDataPresent();
             UpdateItemCountText();
         }
 
 
         private void UpdateItemCountText()
         {
-            itemCountTextBox.Text = "Item Count: " + DataManager.GetListCount();
+            itemCountTextBox.Text = "Item Count: " + dm.GetListCount();
         }
 
 
@@ -73,7 +72,7 @@ namespace WPF_EXCEL_READER
             c.PhoneNumber = phoneNumberTextBox.Text;
             c.Address = string.Format("{0}, {1}, {2}", streetTextBox.Text, cityTextBox.Text, postalTextBox.Text);
 
-            DataManager.AddCustomer(c);
+            dm.AddCustomer(c);
             UpdateItemCountText();
 
             ClearTextBoxInputs();
@@ -91,6 +90,12 @@ namespace WPF_EXCEL_READER
             streetTextBox.Clear();
             cityTextBox.Clear();
             postalTextBox.Clear();
+        }
+
+        private void SaveToOpenedFile(object sender, RoutedEventArgs e)
+        {
+            SaveLoader.WriteToExistingFile(currentSavePath, dm);
+            MessageBox.Show(string.Format("Saved {0} entries to {1}", dm.GetListCount(), currentSavePath));
         }
     }
 }

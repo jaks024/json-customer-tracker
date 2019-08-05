@@ -22,9 +22,9 @@ namespace WPF_EXCEL_READER
             
         }
 
-        public static void WriteToExistingSave(Customer _customers)
+        public static void WriteToNewFile(Customer _customers, string path)
         {
-            using (StreamWriter file = File.CreateText(@"C:\Users\Jackson\Desktop\save.txt"))
+            using (StreamWriter file = File.CreateText(@"C:\Users\Jackson\Desktop\save.json"))
             {
                 JsonSerializer serializer = new JsonSerializer();
 
@@ -39,6 +39,11 @@ namespace WPF_EXCEL_READER
                  *}
                  */
             }
+        }
+
+        public static void WriteToExistingFile(string path, DataManager dm)
+        {
+            File.WriteAllText(path, JsonConvert.SerializeObject(dm.customers));           
         }
     }
 }

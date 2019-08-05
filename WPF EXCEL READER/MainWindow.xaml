@@ -7,10 +7,7 @@
         xmlns:local="clr-namespace:WPF_EXCEL_READER"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Window.Resources>
-        <c:DataManager x:Key="CustomerListData"/>
-    </Window.Resources>
-    
+
     <Grid>
         <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top">
 
@@ -69,7 +66,7 @@
         </Grid>
 
 
-        <ListBox Name="CustomerListBox"  IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Height="374" Margin="315,35,0,0" VerticalAlignment="Top" Width="467">
+        <ListBox Name="CustomerListBox" ItemsSource="{Binding customers}" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Height="374" Margin="315,35,0,0" VerticalAlignment="Top" Width="467">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Width="430">
@@ -91,6 +88,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button x:Name="saveToFileButton" Margin="10,260,642,128" Click="SaveToOpenedFile" Content="Save To Opened"/>
 
 
     </Grid>
