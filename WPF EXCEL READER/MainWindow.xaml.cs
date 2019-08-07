@@ -40,7 +40,6 @@ namespace WPF_EXCEL_READER
                 pathTextBlock.Text = openFileDialog.FileName;
                 currentSavePath = openFileDialog.FileName;
                 dm.AddCustomer(SaveLoader.ReadSave(currentSavePath));
-                UpdateItemCountText();
             }
         }
 
@@ -49,15 +48,7 @@ namespace WPF_EXCEL_READER
         {
             pathTextBlock.Text = "";
             dm.ClearDataPresent();
-            UpdateItemCountText();
         }
-
-
-        private void UpdateItemCountText()
-        {
-            itemCountTextBox.Text = "Item Count: " + dm.GetListCount();
-        }
-
 
         private static readonly Regex numberRegex = new Regex("[^0-9]");
         private void PhoneNumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -73,7 +64,6 @@ namespace WPF_EXCEL_READER
             c.Address = string.Format("{0}, {1}, {2}", streetTextBox.Text, cityTextBox.Text, postalTextBox.Text);
 
             dm.AddCustomer(c);
-            UpdateItemCountText();
 
             ClearTextBoxInputs();
         }
@@ -95,7 +85,6 @@ namespace WPF_EXCEL_READER
         private void SaveToOpenedFile(object sender, RoutedEventArgs e)
         {
             SaveLoader.WriteToExistingFile(currentSavePath, dm);
-            MessageBox.Show(string.Format("Saved {0} entries to {1}", dm.GetListCount(), currentSavePath));
         }
     }
 }

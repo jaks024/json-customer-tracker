@@ -7,27 +7,45 @@
         xmlns:local="clr-namespace:WPF_EXCEL_READER"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <DataTemplate x:Key="customerTemplate">
+            <Grid Width="430">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Id}"></TextBlock>
+                <TextBlock Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                <TextBlock Grid.Column="2" Text="{Binding PhoneNumber}"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Address}"></TextBlock>
+            </Grid>
 
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top">
 
-            <StackPanel Orientation="Horizontal" Width="430" Margin="15 0">
-                <TextBlock FontSize="20" VerticalAlignment="Bottom" Height="25">
-                    Read Information
-                </TextBlock>
-                <TextBlock Name="itemCountTextBox" VerticalAlignment="Bottom" Margin="20 0">
-                    Item Count: 0
-                </TextBlock>
+            <StackPanel Orientation="Horizontal" Width="300" Margin="15 0 0 0">
+                <TextBlock Name="itemCountTextBox" 
+                           Text="{Binding ElementName=CustomerListBox, Path=Items.Count, Mode=OneWay, StringFormat='Total Entries: {0}'}" 
+                           VerticalAlignment="Bottom" Margin="0" Width="140"/>
+                <TextBlock Name="itemSelectedTextBox" 
+                           Text="{Binding ElementName=CustomerListBox, Path=SelectedItems.Count, Mode=OneWay, StringFormat='Selected: {0}'}" 
+                           VerticalAlignment="Bottom" Margin="10 0"/>
             </StackPanel>
 
-            <Button Name="btnOpenFile" Click="BtnOpenFile_Click" Width="50" Height="25" VerticalAlignment="Bottom">
-                Browse
-            </Button>
+            <Button x:Name="saveToFileButton" Click="SaveToOpenedFile" Content="Save" Width="50" Height="25" VerticalAlignment="Bottom" Margin="0 0 5 0"/>
+            <Button x:Name="btnOpenFile" Click="BtnOpenFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Content="Browse"/>
             <Button Name="btnClearFile" Click="BtnClearFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5 0">
                 Clear
             </Button>
             <Border >
-                <TextBox Name="pathTextBlock" VerticalAlignment="Bottom" MinWidth="200" Height="25" Width="212">
+                <TextBox Name="pathTextBlock" VerticalAlignment="Bottom" MinWidth="200" Height="25" Width="300">
 
                 </TextBox>
             </Border>
@@ -66,29 +84,11 @@
         </Grid>
 
 
-        <ListBox Name="CustomerListBox" ItemsSource="{Binding customers}" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Height="374" Margin="315,35,0,0" VerticalAlignment="Top" Width="467">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="430">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="300"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBox Text="{Binding Id}"></TextBox>
-                        <TextBox Grid.Column="1" Text="{Binding Name}"></TextBox>
-                        <TextBox Grid.Column="2" Text="{Binding PhoneNumber}"></TextBox>
-                        <TextBox Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Address}"></TextBox>
-                    </Grid>
-
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Button x:Name="saveToFileButton" Margin="10,260,642,128" Click="SaveToOpenedFile" Content="Save To Opened"/>
+        <ListBox Name="CustomerListBox" 
+                 ItemsSource="{Binding customers}" 
+                 ItemTemplate="{StaticResource customerTemplate}"  
+                 IsSynchronizedWithCurrentItem="True" SelectionMode="Extended" 
+                 HorizontalAlignment="Left" Height="374" Margin="315,35,0,0" VerticalAlignment="Top" Width="465"/>
 
 
     </Grid>

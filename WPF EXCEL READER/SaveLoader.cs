@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using System.Windows;
+using Microsoft.Win32;
 namespace WPF_EXCEL_READER
 {
     class SaveLoader
@@ -43,7 +45,38 @@ namespace WPF_EXCEL_READER
 
         public static void WriteToExistingFile(string path, DataManager dm)
         {
-            File.WriteAllText(path, JsonConvert.SerializeObject(dm.customers));           
+            if (path.Equals("") || path == null)
+            {
+                if (int.Parse(dm.GetListCount()) == 0)
+                {
+                    MessageBox.Show("Invalid Operation, There are no entries");
+                    return;
+                }
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                saveFileDialog.Filter = "JSON (*.json)|*.json|All files (*.*)|*.*";
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(dm.customers, Formatting.Indented));
+                    path = saveFileDialog.FileName;
+                } else
+                {
+                    return;
+                }
+                
+            }
+            else
+            {
+                try
+                {
+                    File.WriteAllText(path, JsonConvert.SerializeObject(dm.customers, Formatting.Indented));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error: " + e.Message);
+                }
+            }
+            MessageBox.Show(string.Format("Saved {0} entries to {1}", dm.GetListCount(), path));
         }
     }
 }
