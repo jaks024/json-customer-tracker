@@ -28,67 +28,77 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top">
-
-            <StackPanel Orientation="Horizontal" Width="300" Margin="15 0 0 0">
-                <TextBlock Name="itemCountTextBox" 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"  Margin="10 0">
+            <TextBlock Name="itemCountTextBox" 
                            Text="{Binding ElementName=CustomerListBox, Path=Items.Count, Mode=OneWay, StringFormat='Total Entries: {0}'}" 
-                           VerticalAlignment="Bottom" Margin="0" Width="140"/>
-                <TextBlock Name="itemSelectedTextBox" 
+                           VerticalAlignment="Bottom" Margin="0"/>
+            <TextBlock Name="itemSelectedTextBox" 
                            Text="{Binding ElementName=CustomerListBox, Path=SelectedItems.Count, Mode=OneWay, StringFormat='Selected: {0}'}" 
-                           VerticalAlignment="Bottom" Margin="10 0"/>
-            </StackPanel>
-
-            <Button x:Name="saveToFileButton" Click="SaveToOpenedFile" Content="Save" Width="50" Height="25" VerticalAlignment="Bottom" Margin="0 0 5 0"/>
-            <Button x:Name="btnOpenFile" Click="BtnOpenFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Content="Browse"/>
-            <Button Name="btnClearFile" Click="BtnClearFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5 0">
-                Clear
-            </Button>
-            <Border >
-                <TextBox Name="pathTextBlock" VerticalAlignment="Bottom" MinWidth="200" Height="25" Width="300">
-
-                </TextBox>
-            </Border>
+                           VerticalAlignment="Bottom" Margin="10 0" />
         </StackPanel>
-        <Grid HorizontalAlignment="Left" Height="225" Margin="10,35,0,0" VerticalAlignment="Top" Width="300">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <Label >Name:</Label>
-            <TextBox Name="nameTextBox" Grid.Row="1" Margin="5 0"></TextBox>
 
-            <Label Grid.Column="2">Phone Number:</Label>
-            <TextBox Name="phoneNumberTextBox" Grid.Row="1" Grid.Column="2" Margin="5 0" PreviewTextInput="PhoneNumberValidationTextBox" MaxLength="10"></TextBox>
+        <StackPanel Grid.Column="1" Orientation="Horizontal"  VerticalAlignment="Bottom" Margin="10 0">
+            <Button x:Name="saveToFileButton" Click="SaveToOpenedFile" Content="_Save" Width="50" Height="25" VerticalAlignment="Bottom" Margin="0 0 5 0"/>
+            <Button x:Name="btnOpenFile" Click="BtnOpenFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Content="_Browse" />
+            <Button Name="btnClearFile" Click="BtnClearFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5 0" Content="_Clear"/>
+            <TextBox Name="pathTextBlock" VerticalAlignment="Bottom" MinWidth="296" Height="25"/>
+        </StackPanel>
+        <TabControl Grid.Row="1" Margin="10">
+            <TabItem Header="_Add">
+                <Grid HorizontalAlignment="Center" Height="364"  VerticalAlignment="Top" Width="280">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Label >Name:</Label>
+                    <TextBox Name="nameTextBox" Grid.Row="1" Margin="5 0"></TextBox>
 
-            <Label Grid.Row="2" Grid.ColumnSpan="2">Street</Label>
-            <TextBox Name="streetTextBox" Grid.Row="3" Margin="5 0" Grid.ColumnSpan="2"></TextBox>
+                    <Label Grid.Column="2">Phone Number:</Label>
+                    <TextBox Name="phoneNumberTextBox" Grid.Row="1" Grid.Column="2" Margin="5 0" PreviewTextInput="PhoneNumberValidationTextBox" MaxLength="10"></TextBox>
 
-            <Label Grid.Row="4">City</Label>
-            <TextBox Name="cityTextBox" Grid.Row="5" Margin="5 0"></TextBox>
+                    <Label Grid.Row="2" Grid.ColumnSpan="2">Street</Label>
+                    <TextBox Name="streetTextBox" Grid.Row="3" Margin="5 0" Grid.ColumnSpan="2"></TextBox>
 
-            <Label Grid.Row="4" Grid.Column="1">Postal Code</Label>
-            <TextBox Name="postalTextBox" Grid.Row="5" Grid.Column="1" Margin="5 0"></TextBox>
-            
-            <Button Name="clearFieldButton" Click="ClearNewCustomerFieldsOnClick" Grid.Row="6" Margin="5 10">Clear Fields</Button>
-            <Button Name="addNewButton" Grid.Row="6" Grid.Column="1" Margin="5 10" Click="AddNewCustomerOnClick">Add New Entry</Button>
-        </Grid>
+                    <Label Grid.Row="4">City</Label>
+                    <TextBox Name="cityTextBox" Grid.Row="5" Margin="5 0"></TextBox>
+
+                    <Label Grid.Row="4" Grid.Column="1">Postal Code</Label>
+                    <TextBox Name="postalTextBox" Grid.Row="5" Grid.Column="1" Margin="5 0"></TextBox>
+
+                    <Button Name="clearFieldButton" Click="ClearNewCustomerFieldsOnClick" Grid.Row="6" Margin="5 10">Clear Fields</Button>
+                    <Button Name="addNewButton" Grid.Row="6" Grid.Column="1" Margin="5 10" Click="AddNewCustomerOnClick">Add New Entry</Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="S_earch">
+                
+            </TabItem>
+        </TabControl>
+
 
 
         <ListBox Name="CustomerListBox" 
                  ItemsSource="{Binding customers}" 
                  ItemTemplate="{StaticResource customerTemplate}"  
                  IsSynchronizedWithCurrentItem="True" SelectionMode="Extended" 
-                 HorizontalAlignment="Left" Height="374" Margin="315,35,0,0" VerticalAlignment="Top" Width="465"/>
+                 HorizontalAlignment="Center" VerticalAlignment="Top"
+                 Grid.Row="1" Grid.Column="1" Margin="10"/>
 
 
     </Grid>
