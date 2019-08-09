@@ -4,12 +4,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+
 namespace WPF_EXCEL_READER
 {
 
-    public class DataManager
+    public class DataManager : INotifyPropertyChanged
     {
         public ObservableCollection<Customer> customers { get; } = new ObservableCollection<Customer>();
+
+        private ObservableCollection<SaveFile> saveFiles = new ObservableCollection<SaveFile>();
+        public ObservableCollection<SaveFile> SaveFiles { get { return saveFiles; } set { saveFiles = value;  NotifyPropertyChanged("SaveFiles"); } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string name)
+        {
+            if(PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public int GetIndexFromPath(string path)
+        {
+            for(int i = 0; i < saveFiles.Count; i++)
+            {
+                if (saveFiles[i].Path.Equals(path))
+                    return i;
+            }
+            return 0;
+        }
+        public string GetPathFromIndex(int ind)
+        {
+            if (ind < saveFiles.Count && ind >= 0)
+                return SaveFiles[ind].Path;
+            return "";
+        }
+
+        public void SwitchToSaveFile(int ind)
+        {
+            if(ind < saveFiles.Count && ind >= 0)
+              SwitchCustomerListToCurrentSaveFile(saveFiles[ind]);
+        }
+        public void AddSaveFile(SaveFile s)
+        {
+            this.saveFiles.Add(s);
+            SwitchCustomerListToCurrentSaveFile(s);
+            Console.WriteLine(saveFiles.Count + "  " + s.Id + "  " + s.Path);
+        }
+
+        public void SwitchCustomerListToCurrentSaveFile(SaveFile s)
+        {
+            customers.Clear();
+            AddCustomer(SaveLoader.ReadSave(s.Path));
+        }
 
         public void AddCustomer(Customer c)
         {
@@ -22,6 +70,7 @@ namespace WPF_EXCEL_READER
                 this.customers.Add(c);
             }     
         }
+
         public ObservableCollection<Customer> GetAllCustomers()
         {
             return customers;
@@ -33,7 +82,7 @@ namespace WPF_EXCEL_READER
         }
 
 
-        public string GetListCount()
+        public string GetCustomerListCount()
         {
             return customers.Count.ToString();
         }

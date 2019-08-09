@@ -60,7 +60,9 @@
     </ApplicationDefinition>
     <Compile Include="Customer.cs" />
     <Compile Include="DataManager.cs" />
+    <Compile Include="SaveFile.cs" />
     <Compile Include="SaveLoader.cs" />
+    <Compile Include="SearchManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

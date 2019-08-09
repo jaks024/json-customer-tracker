@@ -27,6 +27,7 @@ namespace WPF_EXCEL_READER
         {
             InitializeComponent();
             CustomerListBox.DataContext = dm;
+            pathComboBox.DataContext = dm;
         }
 
         //load json save file into DataManager
@@ -37,16 +38,18 @@ namespace WPF_EXCEL_READER
             openFileDialog.Filter = "JSON (*.json)|*.json|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                pathTextBlock.Text = openFileDialog.FileName;
+                pathComboBox.Text = openFileDialog.FileName;
                 currentSavePath = openFileDialog.FileName;
-                dm.AddCustomer(SaveLoader.ReadSave(currentSavePath));
+
+                dm.AddSaveFile(new SaveFile() { Id = dm.SaveFiles.Count, Path = currentSavePath });
+                pathComboBox.SelectedItem = dm.SaveFiles[dm.GetIndexFromPath(currentSavePath)];
             }
         }
 
         //clear path and all item in DataManager
         private void BtnClearFile_Click(object sender, RoutedEventArgs e)
         {
-            pathTextBlock.Text = "";
+            pathComboBox.Text = "";
             dm.ClearDataPresent();
         }
 
@@ -85,6 +88,12 @@ namespace WPF_EXCEL_READER
         private void SaveToOpenedFile(object sender, RoutedEventArgs e)
         {
             SaveLoader.WriteToExistingFile(currentSavePath, dm);
+        }
+
+        private void PathComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dm.SwitchToSaveFile(pathComboBox.SelectedIndex);
+            currentSavePath = dm.GetPathFromIndex(pathComboBox.SelectedIndex);
         }
     }
 }

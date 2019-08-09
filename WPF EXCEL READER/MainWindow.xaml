@@ -26,6 +26,9 @@
             </Grid>
 
         </DataTemplate>
+        <DataTemplate x:Key="fileTemplate" >
+            <TextBlock Text="{Binding Path}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -34,26 +37,33 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="351"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal"  Margin="10 0">
             <TextBlock Name="itemCountTextBox" 
                            Text="{Binding ElementName=CustomerListBox, Path=Items.Count, Mode=OneWay, StringFormat='Total Entries: {0}'}" 
-                           VerticalAlignment="Bottom" Margin="0"/>
+                           VerticalAlignment="Bottom" Margin="0 0 5 0"/>
             <TextBlock Name="itemSelectedTextBox" 
                            Text="{Binding ElementName=CustomerListBox, Path=SelectedItems.Count, Mode=OneWay, StringFormat='Selected: {0}'}" 
-                           VerticalAlignment="Bottom" Margin="10 0" />
+                           VerticalAlignment="Bottom" Margin="5 0" />
+            <TextBlock Name="fileCountTextBox" 
+                           Text="{Binding ElementName=pathComboBox, Path=Items.Count, Mode=OneWay, StringFormat='Opened Files: {0}'}" 
+                           VerticalAlignment="Bottom" Margin="5 0 0 0" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Horizontal"  VerticalAlignment="Bottom" Margin="10 0">
             <Button x:Name="saveToFileButton" Click="SaveToOpenedFile" Content="_Save" Width="50" Height="25" VerticalAlignment="Bottom" Margin="0 0 5 0"/>
             <Button x:Name="btnOpenFile" Click="BtnOpenFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Content="_Browse" />
             <Button Name="btnClearFile" Click="BtnClearFile_Click" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5 0" Content="_Clear"/>
-            <TextBox Name="pathTextBlock" VerticalAlignment="Bottom" MinWidth="296" Height="25"/>
+            <ComboBox Name="pathComboBox"
+                      ItemsSource="{Binding SaveFiles, Mode=OneWay, NotifyOnSourceUpdated=True}"  ItemTemplate="{StaticResource fileTemplate}"
+                      SelectionChanged="PathComboBox_SelectionChanged"
+                      VerticalAlignment="Bottom" Width="296" Height="25"/>
         </StackPanel>
-        <TabControl Grid.Row="1" Margin="10">
+        <TabControl Grid.Row="1" Margin="10" VerticalAlignment="Top">
             <TabItem Header="_Add">
-                <Grid HorizontalAlignment="Center" Height="364"  VerticalAlignment="Top" Width="280">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="280">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -87,19 +97,32 @@
                 </Grid>
             </TabItem>
             <TabItem Header="S_earch">
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Margin="5"></TextBox>
+                    <Button Grid.Column="2" Content="Search" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5"/>
+                </Grid>
             </TabItem>
         </TabControl>
 
-
+        
 
         <ListBox Name="CustomerListBox" 
                  ItemsSource="{Binding customers}" 
                  ItemTemplate="{StaticResource customerTemplate}"  
                  IsSynchronizedWithCurrentItem="True" SelectionMode="Extended" 
                  HorizontalAlignment="Center" VerticalAlignment="Top"
-                 Grid.Row="1" Grid.Column="1" Margin="10"/>
-
-
+                 Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="10" Width="461" Height="366"/>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10 0">
+            <Button Content="Delete" Width="50" Height="25" VerticalAlignment="Top" Margin="0 0 5 0"/>
+            <Button Content="Edit" Width="50" Height="25" VerticalAlignment="Top" Margin="5 0"/>
+        </StackPanel>
     </Grid>
 </Window>

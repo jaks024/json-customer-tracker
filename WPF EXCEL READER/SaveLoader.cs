@@ -47,7 +47,7 @@ namespace WPF_EXCEL_READER
         {
             if (path.Equals("") || path == null)
             {
-                if (int.Parse(dm.GetListCount()) == 0)
+                if (int.Parse(dm.GetCustomerListCount()) == 0)
                 {
                     MessageBox.Show("Invalid Operation, There are no entries");
                     return;
@@ -76,7 +76,7 @@ namespace WPF_EXCEL_READER
                     MessageBox.Show("Error: " + e.Message);
                 }
             }
-            MessageBox.Show(string.Format("Saved {0} entries to {1}", dm.GetListCount(), path));
+            MessageBox.Show(string.Format("Saved {0} entries to {1}", dm.GetCustomerListCount(), path));
         }
     }
 }
