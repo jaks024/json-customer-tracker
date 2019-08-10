@@ -86,16 +86,5 @@ namespace WPF_EXCEL_READER
         {
             return customers.Count.ToString();
         }
-        public string GetCustomersToString()
-        {
-            string s = "";
-            foreach(Customer c in customers)
-            {
-                s += string.Format("Id: {0}, Name: {1}, PhoneNumber: {2}, Address: {3}", c.Id, c.Name, c.PhoneNumber, c.Address);
-            }
-            return s;
-        }
-
-
     }
 }

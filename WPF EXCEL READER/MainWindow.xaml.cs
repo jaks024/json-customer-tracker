@@ -28,6 +28,9 @@ namespace WPF_EXCEL_READER
             InitializeComponent();
             CustomerListBox.DataContext = dm;
             pathComboBox.DataContext = dm;
+
+            typeComboBox.ItemsSource = Enum.GetValues(typeof(CustomerTypes)).Cast<CustomerTypes>();
+            typeComboBox.SelectedIndex = 0;
         }
 
         //load json save file into DataManager
@@ -54,7 +57,7 @@ namespace WPF_EXCEL_READER
         }
 
         private static readonly Regex numberRegex = new Regex("[^0-9]");
-        private void PhoneNumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
         {
             e.Handled = numberRegex.IsMatch(e.Text);
         }
@@ -62,12 +65,27 @@ namespace WPF_EXCEL_READER
         private void AddNewCustomerOnClick(object sender, RoutedEventArgs e)
         {
             Customer c = new Customer();
-            c.Name = nameTextBox.Text;
+            c.FirstName = nameFirstTextBox.Text;
+            c.MiddleName = nameMiddleTextBox.Text;
+            c.LastName = nameLastTextBox.Text;
+            c.Street = streetTextBox.Text;
+            c.City = cityTextBox.Text;
+            c.Province = provinceTextBox.Text;
+            c.PostalCode = provinceTextBox.Text;
             c.PhoneNumber = phoneNumberTextBox.Text;
-            c.Address = string.Format("{0}, {1}, {2}", streetTextBox.Text, cityTextBox.Text, postalTextBox.Text);
+            c.Type = (CustomerTypes)typeComboBox.SelectedIndex;
+            c.Comment = commentTextBox.Text;
+            try
+            {
+                c.Id = int.Parse(idTextBox.Text);
+            } catch
+            {
+                MessageBox.Show("ID Cannot be empty");
+                return;
+            }
+            
 
             dm.AddCustomer(c);
-
             ClearTextBoxInputs();
         }
 
@@ -78,11 +96,17 @@ namespace WPF_EXCEL_READER
 
         private void ClearTextBoxInputs()
         {
-            nameTextBox.Clear();
-            phoneNumberTextBox.Clear();
+            nameFirstTextBox.Clear();
+            nameMiddleTextBox.Clear();
+            nameLastTextBox.Clear();
             streetTextBox.Clear();
             cityTextBox.Clear();
+            provinceTextBox.Clear();
             postalTextBox.Clear();
+            phoneNumberTextBox.Clear();
+            typeComboBox.SelectedIndex = 0;
+            commentTextBox.Clear();
+            idTextBox.Clear();
         }
 
         private void SaveToOpenedFile(object sender, RoutedEventArgs e)
