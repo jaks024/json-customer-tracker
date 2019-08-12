@@ -52,8 +52,23 @@ namespace WPF_EXCEL_READER
         //clear path and all item in DataManager
         private void BtnClearFile_Click(object sender, RoutedEventArgs e)
         {
+            SaveFile save = (SaveFile)pathComboBox.SelectedItem;
+            MessageBox.Show(save.Path);
+            dm.RemoveSaveFromPath(save.Path);      
             pathComboBox.Text = "";
             dm.ClearDataPresent();
+            if(dm.GetSaveFileCount() > 0)
+            {
+                SaveFile s = dm.GetNextAvailableSaveFile();
+                pathComboBox.SelectedItem = s;
+                currentSavePath = s.Path; 
+            }
+        }
+
+        private void PathComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dm.SwitchToSaveFile(pathComboBox.SelectedIndex);
+            currentSavePath = dm.GetPathFromIndex(pathComboBox.SelectedIndex);
         }
 
         private static readonly Regex numberRegex = new Regex("[^0-9]");
@@ -114,10 +129,32 @@ namespace WPF_EXCEL_READER
             SaveLoader.WriteToExistingFile(currentSavePath, dm);
         }
 
-        private void PathComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DeleteSelectedOnClick(object sender, RoutedEventArgs e)
         {
-            dm.SwitchToSaveFile(pathComboBox.SelectedIndex);
-            currentSavePath = dm.GetPathFromIndex(pathComboBox.SelectedIndex);
+            if (CustomerListBox.Items.Count == 0 || CustomerListBox.SelectedItems.Count == 0)
+                return;
+            else
+            {
+                System.Collections.IList items = (System.Collections.IList)CustomerListBox.SelectedItems;
+                var collection = items.Cast<Customer>();
+                dm.RemoveCustomer(collection);
+            }
+        }
+
+        private void AutoIdOnClick(object sender, RoutedEventArgs e)
+        {
+            if (dm.GetCustomerListCount() == 0)
+            {
+                idTextBox.Text = "0";
+                return;
+            }
+            int largest = 0;
+            foreach(Customer c in dm.GetAllCustomers())
+            {
+                if (c.Id > largest)
+                    largest = c.Id;
+            }
+            idTextBox.Text = (largest + 1).ToString();
         }
     }
 }

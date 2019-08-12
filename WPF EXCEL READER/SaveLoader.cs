@@ -47,7 +47,7 @@ namespace WPF_EXCEL_READER
         {
             if (path.Equals("") || path == null)
             {
-                if (int.Parse(dm.GetCustomerListCount()) == 0)
+                if (dm.GetCustomerListCount() == 0)
                 {
                     MessageBox.Show("Invalid Operation, There are no entries");
                     return;
@@ -57,7 +57,7 @@ namespace WPF_EXCEL_READER
                 saveFileDialog.Filter = "JSON (*.json)|*.json|All files (*.*)|*.*";
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(dm.customers, Formatting.Indented));
+                    File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(dm.GetAllCustomers(), Formatting.Indented));
                     path = saveFileDialog.FileName;
                 } else
                 {
@@ -69,7 +69,7 @@ namespace WPF_EXCEL_READER
             {
                 try
                 {
-                    File.WriteAllText(path, JsonConvert.SerializeObject(dm.customers, Formatting.Indented));
+                    File.WriteAllText(path, JsonConvert.SerializeObject(dm.GetAllCustomers(), Formatting.Indented));
                 }
                 catch (Exception e)
                 {

@@ -11,7 +11,8 @@ namespace WPF_EXCEL_READER
 
     public class DataManager : INotifyPropertyChanged
     {
-        public ObservableCollection<Customer> customers { get; } = new ObservableCollection<Customer>();
+        private ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
+        public ObservableCollection<Customer> Customers { get { return customers; } set { customers = value; NotifyPropertyChanged("Customers"); } }
 
         private ObservableCollection<SaveFile> saveFiles = new ObservableCollection<SaveFile>();
         public ObservableCollection<SaveFile> SaveFiles { get { return saveFiles; } set { saveFiles = value;  NotifyPropertyChanged("SaveFiles"); } }
@@ -25,6 +26,7 @@ namespace WPF_EXCEL_READER
             }
         }
 
+        #region Save Files
         public int GetIndexFromPath(string path)
         {
             for(int i = 0; i < saveFiles.Count; i++)
@@ -37,8 +39,20 @@ namespace WPF_EXCEL_READER
         public string GetPathFromIndex(int ind)
         {
             if (ind < saveFiles.Count && ind >= 0)
-                return SaveFiles[ind].Path;
+                return saveFiles[ind].Path;
             return "";
+        }
+        public void RemoveSaveFromPath(string path)
+        {
+            saveFiles.RemoveAt(GetIndexFromPath(path));
+        }
+        public SaveFile GetNextAvailableSaveFile()
+        {
+            return saveFiles[0];
+        }
+        public int GetSaveFileCount()
+        {
+            return saveFiles.Count;
         }
 
         public void SwitchToSaveFile(int ind)
@@ -52,6 +66,10 @@ namespace WPF_EXCEL_READER
             SwitchCustomerListToCurrentSaveFile(s);
             Console.WriteLine(saveFiles.Count + "  " + s.Id + "  " + s.Path);
         }
+
+        #endregion
+
+        #region Customers
 
         public void SwitchCustomerListToCurrentSaveFile(SaveFile s)
         {
@@ -71,6 +89,27 @@ namespace WPF_EXCEL_READER
             }     
         }
 
+        public void RemoveCustomer(Customer c)
+        {
+            customers.Remove(c);
+        }
+        public void RemoveCustomer(List<Customer> cs)
+        {
+            foreach(Customer customer in cs)
+            {
+                customers.Remove(customer);
+            }
+        }
+
+        internal void RemoveCustomer(IEnumerable<Customer> collection)
+        {
+            List<Customer> c = collection.ToList();
+            foreach (Customer customer in c)
+            {
+                customers.Remove(customer);
+            }
+        }
+
         public ObservableCollection<Customer> GetAllCustomers()
         {
             return customers;
@@ -82,9 +121,11 @@ namespace WPF_EXCEL_READER
         }
 
 
-        public string GetCustomerListCount()
+        public int GetCustomerListCount()
         {
-            return customers.Count.ToString();
+            return customers.Count;
         }
+        #endregion
+
     }
 }
