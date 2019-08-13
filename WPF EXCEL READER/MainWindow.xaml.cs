@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
 namespace WPF_EXCEL_READER
@@ -33,6 +34,7 @@ namespace WPF_EXCEL_READER
             typeComboBox.SelectedIndex = 0;
         }
 
+        #region File open, save, and clear
         //load json save file into DataManager
         private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
         {
@@ -53,7 +55,7 @@ namespace WPF_EXCEL_READER
         private void BtnClearFile_Click(object sender, RoutedEventArgs e)
         {
             SaveFile save = (SaveFile)pathComboBox.SelectedItem;
-            MessageBox.Show(save.Path);
+            MessageBox.Show("Cleared " + save.Path);
             dm.RemoveSaveFromPath(save.Path);      
             pathComboBox.Text = "";
             dm.ClearDataPresent();
@@ -64,6 +66,10 @@ namespace WPF_EXCEL_READER
                 currentSavePath = s.Path; 
             }
         }
+        private void SaveToOpenedFile(object sender, RoutedEventArgs e)
+        {
+            SaveLoader.WriteToExistingFile(currentSavePath, dm);
+        }
 
         private void PathComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -71,6 +77,10 @@ namespace WPF_EXCEL_READER
             currentSavePath = dm.GetPathFromIndex(pathComboBox.SelectedIndex);
         }
 
+        #endregion
+
+
+        #region info form
         private static readonly Regex numberRegex = new Regex("[^0-9]");
         private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
         {
@@ -124,23 +134,6 @@ namespace WPF_EXCEL_READER
             idTextBox.Clear();
         }
 
-        private void SaveToOpenedFile(object sender, RoutedEventArgs e)
-        {
-            SaveLoader.WriteToExistingFile(currentSavePath, dm);
-        }
-
-        private void DeleteSelectedOnClick(object sender, RoutedEventArgs e)
-        {
-            if (CustomerListBox.Items.Count == 0 || CustomerListBox.SelectedItems.Count == 0)
-                return;
-            else
-            {
-                System.Collections.IList items = (System.Collections.IList)CustomerListBox.SelectedItems;
-                var collection = items.Cast<Customer>();
-                dm.RemoveCustomer(collection);
-            }
-        }
-
         private void AutoIdOnClick(object sender, RoutedEventArgs e)
         {
             if (dm.GetCustomerListCount() == 0)
@@ -156,5 +149,89 @@ namespace WPF_EXCEL_READER
             }
             idTextBox.Text = (largest + 1).ToString();
         }
+        #endregion
+
+
+        #region list editing
+
+        private void DeleteSelectedOnClick(object sender, RoutedEventArgs e)
+        {
+            if (CustomerListBox.Items.Count == 0 || CustomerListBox.SelectedItems.Count == 0)
+                return;
+            else
+            {
+                System.Collections.IList items = (System.Collections.IList)CustomerListBox.SelectedItems;
+                var collection = items.Cast<Customer>();
+                dm.RemoveCustomer(collection);
+            }
+        }
+
+        #endregion
+
+        #region search
+        private bool started = false;
+        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private int searchWaitDuration = 1;
+        private bool first = false;
+        private void StartDispatcherTimer()
+        {
+            if (!first)
+            {
+                dispatcherTimer.Tick += new EventHandler(SearchTimerTick);
+                dispatcherTimer.Interval = new TimeSpan(0, 0, searchWaitDuration);
+                first = true;
+            }
+            dispatcherTimer.Start();
+            started = true;
+        }
+
+        private void SearchTimerTick(object sender, EventArgs e)
+        {
+            dispatcherTimer.Stop();
+            started = false;
+            dm.ClearDataPresent();
+            dm.Search(searchTextBox.Text);
+            Console.WriteLine(searchTextBox.Text);
+        }
+        private void SearchTextboxInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!started)
+            {
+                StartDispatcherTimer();
+                Console.WriteLine("started");
+            }
+        }
+
+        private void SearchOnClick(object sender, RoutedEventArgs e)
+        {
+            dm.Search(searchTextBox.Text);
+        }
+
+        private void TabMenus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(tabMenus.SelectedIndex == 0)
+            {
+                dm.SetSearching(false);
+                pathComboBox.IsEnabled = true;
+                btnOpenFile.IsEnabled = true;
+                saveToFileButton.IsEnabled = true;
+                btnClearFile.IsEnabled = true;
+            }
+            else
+            {
+                dm.SetSearching(true);
+                pathComboBox.IsEnabled = false;
+                btnOpenFile.IsEnabled = false;
+                saveToFileButton.IsEnabled = false;
+                btnClearFile.IsEnabled = false;
+            }
+        }
+
+        private void ClearSearchOnClick(object sender, RoutedEventArgs e)
+        {
+            searchTextBox.Clear();
+            dm.ResetSearch();
+        }
+        #endregion
     }
 }

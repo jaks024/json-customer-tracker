@@ -85,7 +85,7 @@
                       SelectionChanged="PathComboBox_SelectionChanged"
                       VerticalAlignment="Bottom" Width="296" Height="25"/>
         </StackPanel>
-        <TabControl Grid.Row="1" Margin="10" VerticalAlignment="Top">
+        <TabControl Name="tabMenus" SelectedIndex="0" SelectionChanged="TabMenus_SelectionChanged" Grid.Row="1" Margin="10" VerticalAlignment="Top">
             <TabItem Header="_Add">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="280">
                     <Grid.ColumnDefinitions>
@@ -152,9 +152,11 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
-                    <TextBox Margin="5"></TextBox>
-                    <Button Grid.Column="2" Content="Search" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5"/>
+                    <TextBox Name="searchTextBox" Margin="5" ></TextBox>
+                    <Button Grid.Column="2" Content="Search" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5" Click="SearchOnClick"/>
+                    <Button Grid.Column="2" Grid.Row="1" Content="Clear" Width="50" Height="25" VerticalAlignment="Bottom" Margin="5" Click="ClearSearchOnClick"/>
                 </Grid>
             </TabItem>
         </TabControl>
