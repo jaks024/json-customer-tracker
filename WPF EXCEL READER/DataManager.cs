@@ -45,11 +45,11 @@ namespace WPF_EXCEL_READER
         private bool isSearching = false;
         private ObservableCollection<Customer> searchResultCustomers = new ObservableCollection<Customer>();
 
-        public void UpdateEditedItemInSearch(Customer c, int ind)
+        public void UpdateEditedItemInSearch(Customer c, int mainInd, int searchInd)
         {
-            Customers[ind] = c;
+            Customers[searchInd] = c;
             if (isSearching)
-                customers[ind] = c;
+                customers[mainInd] = c;
         }
         public void ResetSearch()
         {
@@ -157,7 +157,8 @@ namespace WPF_EXCEL_READER
         public void SwitchCustomerListToCurrentSaveFile(SaveFile s)
         {
             customers.Clear();
-            AddCustomer(SaveLoader.ReadSave(s.Path));
+            SaveLoader save = new SaveLoader();
+            AddCustomer(save.ReadSave(s.Path));
         }
 
         public void AddCustomer(Customer c)

@@ -9,10 +9,10 @@ using System.Windows;
 using Microsoft.Win32;
 namespace WPF_EXCEL_READER
 {
-    class SaveLoader
+    public class SaveLoader
     {
-
-        public static List<Customer> ReadSave(string _path)
+        public string lastSavePath;
+        public List<Customer> ReadSave(string _path)
         {
             using (StreamReader reader = File.OpenText(_path))
             {
@@ -24,7 +24,7 @@ namespace WPF_EXCEL_READER
             
         }
 
-        public static void WriteToNewFile(Customer _customers, string path)
+        public void WriteToNewFile(Customer _customers, string path)
         {
             using (StreamWriter file = File.CreateText(@"C:\Users\Jackson\Desktop\save.json"))
             {
@@ -43,7 +43,7 @@ namespace WPF_EXCEL_READER
             }
         }
 
-        public static void WriteToExistingFile(string path, DataManager dm)
+        public void WriteToExistingFile(string path, DataManager dm)
         {
             if (path.Equals("") || path == null)
             {
@@ -59,6 +59,7 @@ namespace WPF_EXCEL_READER
                 {
                     File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(dm.GetAllCustomers(), Formatting.Indented));
                     path = saveFileDialog.FileName;
+                    lastSavePath = path;
                 } else
                 {
                     return;
@@ -70,6 +71,7 @@ namespace WPF_EXCEL_READER
                 try
                 {
                     File.WriteAllText(path, JsonConvert.SerializeObject(dm.GetAllCustomers(), Formatting.Indented));
+                    lastSavePath = path;
                 }
                 catch (Exception e)
                 {

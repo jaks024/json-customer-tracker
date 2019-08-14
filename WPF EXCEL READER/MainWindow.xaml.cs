@@ -34,7 +34,6 @@ namespace WPF_EXCEL_READER
             typeEditComboBox.ItemsSource = Enum.GetValues(typeof(CustomerTypes)).Cast<CustomerTypes>();
             typeComboBox.SelectedIndex = 0;
             typeEditComboBox.SelectedIndex = 0;
-            TabMenusUpdateOnState(false);
         }
 
         #region File open, save, and clear
@@ -46,23 +45,34 @@ namespace WPF_EXCEL_READER
             openFileDialog.Filter = "JSON (*.json)|*.json|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                pathComboBox.Text = openFileDialog.FileName;
-                currentSavePath = openFileDialog.FileName;
-
-                dm.AddSaveFile(new SaveFile() { Id = dm.SaveFiles.Count, Path = currentSavePath });
-                pathComboBox.SelectedItem = dm.SaveFiles[dm.GetIndexFromPath(currentSavePath)];
-
-                TabMenusUpdateOnState(true);
+                LoadSaveFile(openFileDialog.FileName);
             }
+        }
+        public void LoadSaveFile(string path)
+        {
+            pathComboBox.Text = path;
+            currentSavePath = path;
+
+            dm.AddSaveFile(new SaveFile() { Id = dm.SaveFiles.Count, Path = currentSavePath });
+
+            if (dm.GetSaveFileCount() == 1)
+            {
+                ChangeAllFormState(true, false);
+                initialLoaded = true;
+            }
+
+            pathComboBox.SelectedItem = dm.SaveFiles[dm.GetIndexFromPath(currentSavePath)];
         }
 
         //clear path and all item in DataManager
         private void BtnClearFile_Click(object sender, RoutedEventArgs e)
         {
-            SaveFile save = (SaveFile)pathComboBox.SelectedItem;
-            MessageBox.Show("Cleared " + save.Path);
-            dm.RemoveSaveFromPath(save.Path);      
-            pathComboBox.Text = "";
+            if (pathComboBox.IsEnabled)
+            {
+                SaveFile save = (SaveFile)pathComboBox.SelectedItem;
+                MessageBox.Show("Cleared " + save.Path);
+                dm.RemoveSaveFromPath(save.Path);
+            }
             dm.ClearDataPresent();
             if(dm.GetSaveFileCount() > 0)
             {
@@ -70,10 +80,18 @@ namespace WPF_EXCEL_READER
                 pathComboBox.SelectedItem = s;
                 currentSavePath = s.Path; 
             }
+            else
+            {
+                ChangeAllFormState(false, false);
+            }
         }
+
         private void SaveToOpenedFile(object sender, RoutedEventArgs e)
         {
-            SaveLoader.WriteToExistingFile(currentSavePath, dm);
+            SaveLoader s = new SaveLoader();
+            s.WriteToExistingFile(currentSavePath, dm);
+            if (!pathComboBox.IsEnabled)
+                LoadSaveFile(s.lastSavePath);
         }
 
         private void PathComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -82,6 +100,17 @@ namespace WPF_EXCEL_READER
             currentSavePath = dm.GetPathFromIndex(pathComboBox.SelectedIndex);
         }
 
+        private void ChangeAllFormState(bool state, bool ex)
+        {
+            searchTab.IsEnabled = state;
+            editTab.IsEnabled = state;
+            saveToFileButton.IsEnabled = state;
+            btnClearFile.IsEnabled = state;
+            btnDeleteEntry.IsEnabled = state;
+            sortOptionsComboBox.IsEnabled = state;
+            initialLoaded = state;
+            pathComboBox.IsEnabled = ex ? !state : state;
+        }
         #endregion
 
 
@@ -117,6 +146,7 @@ namespace WPF_EXCEL_READER
 
             dm.AddCustomer(c);
             ClearTextBoxInputs();
+            ChangeAllFormState(true, true);
         }
 
         private void ClearNewCustomerFieldsOnClick(object sender, RoutedEventArgs e)
@@ -168,6 +198,8 @@ namespace WPF_EXCEL_READER
                 System.Collections.IList items = (System.Collections.IList)CustomerListBox.SelectedItems;
                 var collection = items.Cast<Customer>();
                 dm.RemoveCustomer(collection);
+                if (dm.GetCustomerListCount() == 0)
+                    ChangeAllFormState(false, false);
             }
         }
 
@@ -213,28 +245,32 @@ namespace WPF_EXCEL_READER
             dm.Search(searchTextBox.Text);
         }
 
-        private void TabMenusUpdateOnState(bool state)
+        private void TabChangeFormStateChange(bool state, bool ex)
         {
-            searchTab.IsEnabled = state;
-            editTab.IsEnabled = state;
+            pathComboBox.IsEnabled = state;
+            btnOpenFile.IsEnabled = state;
+            saveToFileButton.IsEnabled = state;
+            btnClearFile.IsEnabled = state;
+
+            pathComboBox.IsEnabled = ex ? !state : state;
         }
 
+        private bool initialLoaded = false;
         private void TabMenus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (tabMenus.SelectedIndex)
             {
                 default:
                     {
-                        inEdit = false;
+                        if (initialLoaded)
+                        {
+                            inEdit = false;
 
-                        dm.SetSearching(false);
-                        ClearSearch();
-                        pathComboBox.IsEnabled = true;
-                        btnOpenFile.IsEnabled = true;
-                        saveToFileButton.IsEnabled = true;
-                        btnClearFile.IsEnabled = true;
-
-                        CustomerListBox.SelectionMode = SelectionMode.Extended;
+                            dm.SetSearching(false);
+                            ClearSearch();
+                            TabChangeFormStateChange(true, !pathComboBox.HasItems);
+                            CustomerListBox.SelectionMode = SelectionMode.Extended;
+                        }
                         break;
                     }
                 case 1:
@@ -242,23 +278,20 @@ namespace WPF_EXCEL_READER
                         inEdit = false;
 
                         dm.SetSearching(true);
-                        pathComboBox.IsEnabled = false;
-                        btnOpenFile.IsEnabled = false;
-                        saveToFileButton.IsEnabled = false;
-                        btnClearFile.IsEnabled = false;
-
+                        TabChangeFormStateChange(false, false);
                         CustomerListBox.SelectionMode = SelectionMode.Extended;
                         break;
                     }
                 case 2:
                     {
                         inEdit = true;
+                        if (searchTextBox.Text.Length == 0)
+                        {
+                            dm.SetSearching(false);
+                            ClearSearch();
+                        }
                         UpdateEditField();
-                        pathComboBox.IsEnabled = false;
-                        btnOpenFile.IsEnabled = false;
-                        saveToFileButton.IsEnabled = false;
-                        btnClearFile.IsEnabled = false;
-
+                        TabChangeFormStateChange(false, false);
                         CustomerListBox.SelectionMode = SelectionMode.Single;
                         break;
                     }
@@ -275,7 +308,7 @@ namespace WPF_EXCEL_READER
             searchTextBox.Clear();
             dm.ResetSearch();
         }
-        #endregion
+        
 
 
         private bool inEdit = false;
@@ -304,6 +337,7 @@ namespace WPF_EXCEL_READER
         private void UpdateEditOnClick(object sender, RoutedEventArgs e)
         {
             Customer c = dm.Customers[CustomerListBox.SelectedIndex];
+            int index = dm.GetAllCustomers().IndexOf(c);
             c.FirstName = nameFirstEditTextBox.Text;
             c.MiddleName = nameMiddleEditTextBox.Text;
             c.LastName = nameLastEditTextBox.Text;
@@ -323,7 +357,7 @@ namespace WPF_EXCEL_READER
                 MessageBox.Show("ID Cannot be empty");
                 return;
             }
-            dm.UpdateEditedItemInSearch(c, CustomerListBox.SelectedIndex);
+            dm.UpdateEditedItemInSearch(c, index, CustomerListBox.SelectedIndex);
             CustomerListBox.Items.Refresh();
             MessageBox.Show("Changes applied to ID: " + c.Id);
         }
@@ -332,5 +366,7 @@ namespace WPF_EXCEL_READER
         {
             UpdateEditField();
         }
+
+        #endregion
     }
 }
