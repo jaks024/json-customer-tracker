@@ -31,7 +31,10 @@ namespace WPF_EXCEL_READER
             pathComboBox.DataContext = dm;
 
             typeComboBox.ItemsSource = Enum.GetValues(typeof(CustomerTypes)).Cast<CustomerTypes>();
+            typeEditComboBox.ItemsSource = Enum.GetValues(typeof(CustomerTypes)).Cast<CustomerTypes>();
             typeComboBox.SelectedIndex = 0;
+            typeEditComboBox.SelectedIndex = 0;
+            TabMenusUpdateOnState(false);
         }
 
         #region File open, save, and clear
@@ -48,6 +51,8 @@ namespace WPF_EXCEL_READER
 
                 dm.AddSaveFile(new SaveFile() { Id = dm.SaveFiles.Count, Path = currentSavePath });
                 pathComboBox.SelectedItem = dm.SaveFiles[dm.GetIndexFromPath(currentSavePath)];
+
+                TabMenusUpdateOnState(true);
             }
         }
 
@@ -96,7 +101,7 @@ namespace WPF_EXCEL_READER
             c.Street = streetTextBox.Text;
             c.City = cityTextBox.Text;
             c.Province = provinceTextBox.Text;
-            c.PostalCode = provinceTextBox.Text;
+            c.PostalCode = postalTextBox.Text;
             c.PhoneNumber = phoneNumberTextBox.Text;
             c.Type = (CustomerTypes)typeComboBox.SelectedIndex;
             c.Comment = commentTextBox.Text;
@@ -168,6 +173,7 @@ namespace WPF_EXCEL_READER
 
         #endregion
 
+        //add dynamic search
         #region search
         private bool started = false;
         private DispatcherTimer dispatcherTimer = new DispatcherTimer();
@@ -207,31 +213,124 @@ namespace WPF_EXCEL_READER
             dm.Search(searchTextBox.Text);
         }
 
+        private void TabMenusUpdateOnState(bool state)
+        {
+            searchTab.IsEnabled = state;
+            editTab.IsEnabled = state;
+        }
+
         private void TabMenus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(tabMenus.SelectedIndex == 0)
+            switch (tabMenus.SelectedIndex)
             {
-                dm.SetSearching(false);
-                pathComboBox.IsEnabled = true;
-                btnOpenFile.IsEnabled = true;
-                saveToFileButton.IsEnabled = true;
-                btnClearFile.IsEnabled = true;
-            }
-            else
-            {
-                dm.SetSearching(true);
-                pathComboBox.IsEnabled = false;
-                btnOpenFile.IsEnabled = false;
-                saveToFileButton.IsEnabled = false;
-                btnClearFile.IsEnabled = false;
+                default:
+                    {
+                        inEdit = false;
+
+                        dm.SetSearching(false);
+                        ClearSearch();
+                        pathComboBox.IsEnabled = true;
+                        btnOpenFile.IsEnabled = true;
+                        saveToFileButton.IsEnabled = true;
+                        btnClearFile.IsEnabled = true;
+
+                        CustomerListBox.SelectionMode = SelectionMode.Extended;
+                        break;
+                    }
+                case 1:
+                    {
+                        inEdit = false;
+
+                        dm.SetSearching(true);
+                        pathComboBox.IsEnabled = false;
+                        btnOpenFile.IsEnabled = false;
+                        saveToFileButton.IsEnabled = false;
+                        btnClearFile.IsEnabled = false;
+
+                        CustomerListBox.SelectionMode = SelectionMode.Extended;
+                        break;
+                    }
+                case 2:
+                    {
+                        inEdit = true;
+                        UpdateEditField();
+                        pathComboBox.IsEnabled = false;
+                        btnOpenFile.IsEnabled = false;
+                        saveToFileButton.IsEnabled = false;
+                        btnClearFile.IsEnabled = false;
+
+                        CustomerListBox.SelectionMode = SelectionMode.Single;
+                        break;
+                    }
             }
         }
 
         private void ClearSearchOnClick(object sender, RoutedEventArgs e)
         {
+            ClearSearch();
+        }
+
+        private void ClearSearch()
+        {
             searchTextBox.Clear();
             dm.ResetSearch();
         }
         #endregion
+
+
+        private bool inEdit = false;
+        private void UpdateEditField()
+        {
+            if (inEdit && CustomerListBox.SelectedItem != null)
+            {
+                FillEditFieldSelected((Customer)CustomerListBox.SelectedItem);
+            }
+        }
+        private void FillEditFieldSelected(Customer c)
+        {
+            nameFirstEditTextBox.Text = c.FirstName;
+            nameMiddleEditTextBox.Text = c.MiddleName;
+            nameLastEditTextBox.Text = c.LastName;
+            streetEditTextBox.Text = c.Street;
+            cityEditTextBox.Text = c.City;
+            provinceEditTextBox.Text = c.Province;
+            postalEditTextBox.Text = c.PostalCode;
+            phoneNumberEditTextBox.Text = c.PhoneNumber;
+            typeEditComboBox.SelectedIndex = (int)c.Type;
+            commentEditTextBox.Text = c.Comment;
+            idEditTextBox.Text = c.Id.ToString();
+        }
+
+        private void UpdateEditOnClick(object sender, RoutedEventArgs e)
+        {
+            Customer c = dm.Customers[CustomerListBox.SelectedIndex];
+            c.FirstName = nameFirstEditTextBox.Text;
+            c.MiddleName = nameMiddleEditTextBox.Text;
+            c.LastName = nameLastEditTextBox.Text;
+            c.Street = streetEditTextBox.Text;
+            c.City = cityEditTextBox.Text;
+            c.Province = provinceEditTextBox.Text;
+            c.PostalCode = postalEditTextBox.Text;
+            c.PhoneNumber = phoneNumberEditTextBox.Text;
+            c.Type = (CustomerTypes)typeEditComboBox.SelectedIndex;
+            c.Comment = commentEditTextBox.Text;
+            try
+            {
+                c.Id = int.Parse(idEditTextBox.Text);
+            }
+            catch
+            {
+                MessageBox.Show("ID Cannot be empty");
+                return;
+            }
+            dm.UpdateEditedItemInSearch(c, CustomerListBox.SelectedIndex);
+            CustomerListBox.Items.Refresh();
+            MessageBox.Show("Changes applied to ID: " + c.Id);
+        }
+
+        private void CustomerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateEditField();
+        }
     }
 }

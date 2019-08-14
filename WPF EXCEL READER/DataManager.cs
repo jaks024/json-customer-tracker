@@ -45,6 +45,12 @@ namespace WPF_EXCEL_READER
         private bool isSearching = false;
         private ObservableCollection<Customer> searchResultCustomers = new ObservableCollection<Customer>();
 
+        public void UpdateEditedItemInSearch(Customer c, int ind)
+        {
+            Customers[ind] = c;
+            if (isSearching)
+                customers[ind] = c;
+        }
         public void ResetSearch()
         {
             Customers = customers;
@@ -76,8 +82,7 @@ namespace WPF_EXCEL_READER
                     }
                     if (result.Count == 0)
                     {
-                        searchResultCustomers.Clear();
-                        return;
+                        break;
                     }
                     initial = false;
                 }
@@ -93,8 +98,7 @@ namespace WPF_EXCEL_READER
                     }
                     if (temp.Count == 0)
                     {
-                        searchResultCustomers.Clear();
-                        return;
+                        break;
                     }
                     result = temp;
                 }
@@ -186,6 +190,8 @@ namespace WPF_EXCEL_READER
             foreach (Customer customer in c)
             {
                 customers.Remove(customer);
+                if (isSearching)
+                    searchResultCustomers.Remove(customer);
             }
         }
 
