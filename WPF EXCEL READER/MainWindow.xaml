@@ -141,7 +141,7 @@
 
                     <Button Name="autoIDButton" Grid.Row="10" Margin="5 10" Click="AutoIdOnClick">Auto ID</Button>
                     <Button Name="clearFieldButton" Grid.Row="10" Grid.Column="1" Click="ClearNewCustomerFieldsOnClick"  Margin="5 10">Clear Fields</Button>
-                    <Button Name="addNewButton" Grid.Row="10" Grid.Column="2" Margin="5 10" Click="AddNewCustomerOnClick">Add New Entry</Button>
+                    <Button Name="addNewButton" Grid.Row="10" Grid.Column="2" Margin="5 10" Click="AddNewCustomerOnClick">Add</Button>
                 </Grid>
             </TabItem>
             <TabItem Name="searchTab" Header="S_earch">
@@ -229,6 +229,12 @@
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10 0">
             <Button Content="Delete" Width="50" Height="25" VerticalAlignment="Top" Margin="0 0 5 0" Click="DeleteSelectedOnClick"/>
+            <ComboBox Name="sortOptionsComboBox" Width="220" Height="25" VerticalAlignment="Top" Margin="5 0 0 0" SelectedIndex="0">
+                <ComboBoxItem>Sort by: ID ascending</ComboBoxItem>
+                <ComboBoxItem>Sort by: ID descending</ComboBoxItem>
+                <ComboBoxItem>Sort by: Name alphabetical ascending</ComboBoxItem>
+                <ComboBoxItem>Sort by: Name alphabetical descending</ComboBoxItem>
+            </ComboBox>
         </StackPanel>
 
 
