@@ -125,29 +125,29 @@ namespace Customer_Tracker
         private void AddNewCustomerOnClick(object sender, RoutedEventArgs e)
         {
             Customer c = new Customer();
-            c.FirstName = nameFirstTextBox.Text;
-            c.MiddleName = nameMiddleTextBox.Text;
-            c.LastName = nameLastTextBox.Text;
-            c.Street = streetTextBox.Text;
-            c.City = cityTextBox.Text;
-            c.Province = provinceTextBox.Text;
-            c.PostalCode = postalTextBox.Text;
-            c.PhoneNumber = phoneNumberTextBox.Text;
+            c.FirstName = nameFirstTextBox.Text.Length == 0 ? "First" : nameFirstTextBox.Text;
+            c.MiddleName = nameMiddleTextBox.Text.Length == 0 ? "Middle" : nameMiddleTextBox.Text;
+            c.LastName = nameLastTextBox.Text.Length == 0 ? "Last Name" : nameLastTextBox.Text;
+            c.Street = streetTextBox.Text.Length == 0 ? "Street" : streetTextBox.Text;
+            c.City = cityTextBox.Text.Length == 0 ? "City" : cityTextBox.Text;
+            c.Province = provinceTextBox.Text.Length == 0 ? "Province" : provinceTextBox.Text;
+            c.PostalCode = postalTextBox.Text.Length == 0 ? "Postal Code" : postalTextBox.Text;
+            c.PhoneNumber = phoneNumberTextBox.Text.Length == 0 ? "x-xxx-xxx-xxxx" : phoneNumberTextBox.Text;
             c.Type = (CustomerTypes)typeComboBox.SelectedIndex;
-            c.Comment = commentTextBox.Text;
+            c.Comment = commentTextBox.Text.Length == 0 ? "No comments" : commentTextBox.Text;
             try
             {
                 c.Id = int.Parse(idTextBox.Text);
             } catch
             {
-                MessageBox.Show("ID Cannot be empty");
+                MessageBox.Show("ID cannot be empty");
                 return;
             }
             
 
             dm.AddCustomer(c);
             ClearTextBoxInputs();
-            ChangeAllFormState(true, true);
+            ChangeAllFormState(true, dm.SaveFiles.Count > 0 ? false : true);
         }
 
         private void ClearNewCustomerFieldsOnClick(object sender, RoutedEventArgs e)

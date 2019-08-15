@@ -16,9 +16,19 @@ namespace Customer_Tracker
         {
             using (StreamReader reader = File.OpenText(_path))
             {
+
                 JsonSerializer serializer = new JsonSerializer();
 
-                List<Customer> customers = JsonConvert.DeserializeObject<List<Customer>>(reader.ReadToEnd());
+                List<Customer> customers = new List<Customer>();
+                try
+                {
+                    customers = JsonConvert.DeserializeObject<List<Customer>>(reader.ReadToEnd());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                
                 return customers;
             }
             

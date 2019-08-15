@@ -177,6 +177,9 @@ namespace Customer_Tracker
         }
         public void AddCustomer(List<Customer> l)
         {
+            if (l == null)
+                return;
+
             foreach(Customer c in l)
             {
                 this.customers.Add(c);
