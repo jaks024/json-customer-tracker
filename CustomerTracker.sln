@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerTracker", "WPF EXCEL READER\CustomerTracker.csproj", "{25053B27-ED15-4475-BF1B-C04778AABC02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerTracker", "CustomerTracker\CustomerTracker.csproj", "{25053B27-ED15-4475-BF1B-C04778AABC02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4A841344-B40E-4C4D-9DA7-562E146B2BCD}
+		SolutionGuid = {32D48853-9E74-48D1-BCC1-F5F39EF24B84}
 	EndGlobalSection
 EndGlobal

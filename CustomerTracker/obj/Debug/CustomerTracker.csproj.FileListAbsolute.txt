@@ -1,0 +1,35 @@
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Debug\CustomerTracker.exe.config
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Debug\CustomerTracker.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Debug\CustomerTracker.pdb
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\MainWindow.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\App.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker_MarkupCompile.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker_MarkupCompile.lref
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\MainWindow.baml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker.g.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\Customer_Tracker.Properties.Resources.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker.csproj.GenerateResource.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker.csproj.CoreCompileInputs.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker.csproj.CopyComplete
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\CustomerTracker.pdb
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Debug\CustomerTracker.exe.config
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Debug\CustomerTracker.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Debug\CustomerTracker.pdb
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker.csprojAssemblyReference.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\MainWindow.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\App.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker_MarkupCompile.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker_MarkupCompile.lref
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\MainWindow.baml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker.g.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\Customer_Tracker.Properties.Resources.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker.csproj.GenerateResource.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker.csproj.CoreCompileInputs.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker.csproj.CopyComplete
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Debug\CustomerTracker.pdb

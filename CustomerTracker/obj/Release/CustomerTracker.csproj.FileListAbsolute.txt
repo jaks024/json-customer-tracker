@@ -15,3 +15,4 @@ C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Rel
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.csproj.CopyComplete
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.exe
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.pdb
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.csprojAssemblyReference.cache

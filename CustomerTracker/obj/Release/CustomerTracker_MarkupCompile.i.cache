@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Debug\
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\
 Customer_Tracker
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\App.xaml
 11151548125
 
@@ -16,5 +16,5 @@ C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\App.xam
 14-1160655215
 MainWindow.xaml;
 
-False
+True
 
