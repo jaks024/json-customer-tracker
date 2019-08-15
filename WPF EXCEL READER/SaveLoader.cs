@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
-namespace WPF_EXCEL_READER
+namespace Customer_Tracker
 {
     public class SaveLoader
     {

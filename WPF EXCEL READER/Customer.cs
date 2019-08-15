@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPF_EXCEL_READER
+namespace Customer_Tracker
 {
     public enum CustomerTypes { New, Regular, Old, VIP, Special };
 

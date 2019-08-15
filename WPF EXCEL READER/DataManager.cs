@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace WPF_EXCEL_READER
+namespace Customer_Tracker
 {
 
     public class DataManager : INotifyPropertyChanged
     {
+        public SortManager sortManager = new SortManager();
+
         private ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
         public ObservableCollection<Customer> Customers
         {
@@ -39,6 +41,13 @@ namespace WPF_EXCEL_READER
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+
+        public void Sort()
+        {
+            if(!sortManager.sorted)
+                Customers = sortManager.SortByNumber(Customers);
         }
 
         #region Search
@@ -164,18 +173,21 @@ namespace WPF_EXCEL_READER
         public void AddCustomer(Customer c)
         {
             this.customers.Add(c);
+            sortManager.SetSortedFalse();
         }
         public void AddCustomer(List<Customer> l)
         {
             foreach(Customer c in l)
             {
                 this.customers.Add(c);
-            }     
+            }
+            sortManager.SetSortedFalse();
         }
 
         public void RemoveCustomer(Customer c)
         {
             customers.Remove(c);
+            sortManager.SetSortedFalse();
         }
         public void RemoveCustomer(List<Customer> cs)
         {
@@ -183,6 +195,7 @@ namespace WPF_EXCEL_READER
             {
                 customers.Remove(customer);
             }
+            sortManager.SetSortedFalse();
         }
 
         internal void RemoveCustomer(IEnumerable<Customer> collection)
@@ -194,6 +207,7 @@ namespace WPF_EXCEL_READER
                 if (isSearching)
                     searchResultCustomers.Remove(customer);
             }
+            sortManager.SetSortedFalse();
         }
 
         public ObservableCollection<Customer> GetAllCustomers()

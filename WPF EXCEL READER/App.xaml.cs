@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace WPF_EXCEL_READER
+namespace Customer_Tracker
 {
     /// <summary>
     /// Interaction logic for App.xaml

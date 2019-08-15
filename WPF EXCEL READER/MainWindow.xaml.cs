@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
-namespace WPF_EXCEL_READER
+namespace Customer_Tracker
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -109,6 +109,7 @@ namespace WPF_EXCEL_READER
             btnDeleteEntry.IsEnabled = state;
             sortOptionsComboBox.IsEnabled = state;
             initialLoaded = state;
+            btnSort.IsEnabled = state;
             pathComboBox.IsEnabled = ex ? !state : state;
         }
         #endregion
@@ -198,7 +199,7 @@ namespace WPF_EXCEL_READER
                 System.Collections.IList items = (System.Collections.IList)CustomerListBox.SelectedItems;
                 var collection = items.Cast<Customer>();
                 dm.RemoveCustomer(collection);
-                if (dm.GetCustomerListCount() == 0)
+                if (dm.GetCustomerListCount() == 0 && dm.SaveFiles.Count == 0)
                     ChangeAllFormState(false, false);
             }
         }
@@ -207,38 +208,6 @@ namespace WPF_EXCEL_READER
 
         //add dynamic search
         #region search
-        private bool started = false;
-        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        private int searchWaitDuration = 1;
-        private bool first = false;
-        private void StartDispatcherTimer()
-        {
-            if (!first)
-            {
-                dispatcherTimer.Tick += new EventHandler(SearchTimerTick);
-                dispatcherTimer.Interval = new TimeSpan(0, 0, searchWaitDuration);
-                first = true;
-            }
-            dispatcherTimer.Start();
-            started = true;
-        }
-
-        private void SearchTimerTick(object sender, EventArgs e)
-        {
-            dispatcherTimer.Stop();
-            started = false;
-            dm.ClearDataPresent();
-            dm.Search(searchTextBox.Text);
-            Console.WriteLine(searchTextBox.Text);
-        }
-        private void SearchTextboxInput(object sender, TextCompositionEventArgs e)
-        {
-            if (!started)
-            {
-                StartDispatcherTimer();
-                Console.WriteLine("started");
-            }
-        }
 
         private void SearchOnClick(object sender, RoutedEventArgs e)
         {
@@ -368,5 +337,16 @@ namespace WPF_EXCEL_READER
         }
 
         #endregion
+
+        private void SortOptionsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dm.sortManager.descending = sortOptionsComboBox.SelectedIndex == 1 ? true : false;
+            dm.sortManager.SetSortedFalse();
+        }
+
+        private void SortListOnClick(object sender, RoutedEventArgs e)
+        {
+            dm.Sort();
+        }
     }
 }

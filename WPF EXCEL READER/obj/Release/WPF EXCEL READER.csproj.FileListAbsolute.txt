@@ -1,0 +1,18 @@
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\WPF EXCEL READER.exe.config
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\WPF EXCEL READER.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\WPF EXCEL READER.pdb
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\Newtonsoft.Json.dll
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\Newtonsoft.Json.xml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER.csprojAssemblyReference.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\MainWindow.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\App.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER_MarkupCompile.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER_MarkupCompile.lref
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\MainWindow.baml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER.g.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF_EXCEL_READER.Properties.Resources.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER.csproj.GenerateResource.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER.csproj.CoreCompileInputs.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER.csproj.CopyComplete
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\WPF EXCEL READER.pdb

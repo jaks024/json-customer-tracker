@@ -1,0 +1,17 @@
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\CustomerTracker.exe.config
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\CustomerTracker.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\CustomerTracker.pdb
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\Newtonsoft.Json.dll
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\bin\Release\Newtonsoft.Json.xml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\MainWindow.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\App.g.cs
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker_MarkupCompile.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker_MarkupCompile.lref
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\MainWindow.baml
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.g.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\Customer_Tracker.Properties.Resources.resources
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.csproj.GenerateResource.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.csproj.CoreCompileInputs.cache
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.csproj.CopyComplete
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.exe
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\WPF EXCEL READER\obj\Release\CustomerTracker.pdb
