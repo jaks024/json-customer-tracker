@@ -209,9 +209,27 @@ namespace Customer_Tracker
         //add dynamic search
         #region search
 
+        private bool searched = false;
+
+        private void SearchTextBoxTextChange(object sender, TextCompositionEventArgs e)
+        {
+            searched = false;
+        }
         private void SearchOnClick(object sender, RoutedEventArgs e)
         {
-            dm.Search(searchTextBox.Text);
+            if(!searched &&  !string.IsNullOrWhiteSpace(searchTextBox.Text))
+                dm.Search(searchTextBox.Text, out searched);
+        }
+        private void ClearSearchOnClick(object sender, RoutedEventArgs e)
+        {
+            ClearSearch();
+            searched = false;
+        }
+
+        private void ClearSearch()
+        {
+            searchTextBox.Clear();
+            dm.ResetSearch();
         }
 
         private void TabChangeFormStateChange(bool state, bool ex)
@@ -234,6 +252,8 @@ namespace Customer_Tracker
                         if (initialLoaded)
                         {
                             inEdit = false;
+                            editFilled = false;
+                            searched = false;
 
                             dm.SetSearching(false);
                             ClearSearch();
@@ -245,6 +265,8 @@ namespace Customer_Tracker
                 case 1:
                     {
                         inEdit = false;
+                        editFilled = false;
+                        searched = false;
 
                         dm.SetSearching(true);
                         TabChangeFormStateChange(false, false);
@@ -254,6 +276,8 @@ namespace Customer_Tracker
                 case 2:
                     {
                         inEdit = true;
+                        searched = false;
+
                         if (searchTextBox.Text.Length == 0)
                         {
                             dm.SetSearching(false);
@@ -267,23 +291,15 @@ namespace Customer_Tracker
             }
         }
 
-        private void ClearSearchOnClick(object sender, RoutedEventArgs e)
-        {
-            ClearSearch();
-        }
-
-        private void ClearSearch()
-        {
-            searchTextBox.Clear();
-            dm.ResetSearch();
-        }
+        
         
 
 
         private bool inEdit = false;
+        private bool editFilled = false;
         private void UpdateEditField()
         {
-            if (inEdit && CustomerListBox.SelectedItem != null)
+            if (inEdit && CustomerListBox.SelectedItem != null && !editFilled)
             {
                 FillEditFieldSelected((Customer)CustomerListBox.SelectedItem);
             }
@@ -301,6 +317,7 @@ namespace Customer_Tracker
             typeEditComboBox.SelectedIndex = (int)c.Type;
             commentEditTextBox.Text = c.Comment;
             idEditTextBox.Text = c.Id.ToString();
+            editFilled = true;
         }
 
         private void UpdateEditOnClick(object sender, RoutedEventArgs e)
@@ -329,10 +346,12 @@ namespace Customer_Tracker
             dm.UpdateEditedItemInSearch(c, index, CustomerListBox.SelectedIndex);
             CustomerListBox.Items.Refresh();
             MessageBox.Show("Changes applied to ID: " + c.Id);
+            editFilled = false;
         }
 
         private void CustomerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            editFilled = false;
             UpdateEditField();
         }
 
@@ -348,5 +367,7 @@ namespace Customer_Tracker
         {
             dm.Sort();
         }
+
+
     }
 }

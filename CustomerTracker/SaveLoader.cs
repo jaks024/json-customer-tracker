@@ -27,6 +27,7 @@ namespace Customer_Tracker
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                    return null;
                 }
                 
                 return customers;

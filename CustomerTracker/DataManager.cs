@@ -69,8 +69,9 @@ namespace Customer_Tracker
             isSearching = state;
         }
 
-        public void Search(string terms)
+        public void Search(string terms, out bool searched)
         {
+            searched = true;
             if(terms.Length == 0)
             {
                 Customers = customers;
@@ -95,7 +96,8 @@ namespace Customer_Tracker
                     }
                     initial = false;
                 }
-                else
+                
+                if(!initial && t.Length > 1)
                 {
                     ObservableCollection<Customer> temp = new ObservableCollection<Customer>();
                     for (int x = 0; x < result.Count; x++)
@@ -105,11 +107,11 @@ namespace Customer_Tracker
                             temp.Add(result[x]);
                         }
                     }
+                    result = temp;
                     if (temp.Count == 0)
                     {
                         break;
                     }
-                    result = temp;
                 }
             }
             searchResultCustomers = result;
