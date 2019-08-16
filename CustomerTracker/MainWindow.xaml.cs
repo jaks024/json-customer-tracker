@@ -116,7 +116,7 @@ namespace Customer_Tracker
 
 
         #region info form
-        private static readonly Regex numberRegex = new Regex("[^0-9]");
+        private static readonly Regex numberRegex = new Regex("[^0-9-]+");
         private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
         {
             e.Handled = numberRegex.IsMatch(e.Text);

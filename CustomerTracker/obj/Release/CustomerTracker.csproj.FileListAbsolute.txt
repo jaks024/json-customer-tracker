@@ -21,7 +21,6 @@ C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Rele
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Release\CustomerTracker.pdb
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Release\Newtonsoft.Json.dll
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\bin\Release\Newtonsoft.Json.xml
-C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\CustomerTracker.csprojAssemblyReference.cache
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\MainWindow.g.cs
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\App.g.cs
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\CustomerTracker_MarkupCompile.cache
