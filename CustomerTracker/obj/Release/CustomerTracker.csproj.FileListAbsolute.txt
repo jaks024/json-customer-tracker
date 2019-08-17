@@ -33,3 +33,4 @@ C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Rele
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\CustomerTracker.csproj.CopyComplete
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\CustomerTracker.exe
 C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\CustomerTracker.pdb
+C:\Users\Jackson\Documents\GitHub\json-customer-tracker\CustomerTracker\obj\Release\CustomerTracker.csprojAssemblyReference.cache

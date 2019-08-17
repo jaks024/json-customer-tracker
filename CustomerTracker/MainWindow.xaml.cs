@@ -126,7 +126,7 @@ namespace Customer_Tracker
         {
             Customer c = new Customer();
             c.FirstName = nameFirstTextBox.Text.Length == 0 ? "First" : nameFirstTextBox.Text;
-            c.MiddleName = nameMiddleTextBox.Text.Length == 0 ? "Middle" : nameMiddleTextBox.Text;
+            c.MiddleName = nameMiddleTextBox.Text;
             c.LastName = nameLastTextBox.Text.Length == 0 ? "Last Name" : nameLastTextBox.Text;
             c.Street = streetTextBox.Text.Length == 0 ? "Street" : streetTextBox.Text;
             c.City = cityTextBox.Text.Length == 0 ? "City" : cityTextBox.Text;
