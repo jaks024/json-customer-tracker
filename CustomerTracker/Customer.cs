@@ -24,6 +24,7 @@ namespace Customer_Tracker
 
         public string Comment { get; set; }
 
+		public string ImageFolder { get; set; }
         public string SearchTerm { get { return string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}", Id, FirstName, MiddleName, LastName, PhoneNumber, Street, City, Province, PostalCode, Comment, Type).ToLower(); } }
 
         public CustomerTypes Type { get;  set; }

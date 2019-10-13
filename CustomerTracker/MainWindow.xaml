@@ -19,6 +19,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding Id}"></TextBlock>
                 <TextBlock Grid.Column="1">
@@ -42,7 +43,8 @@
                     </TextBlock.Text>
                 </TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Type}"></TextBlock>
-                <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Text="{Binding Comment}" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Text="{Binding ImageFolder}"></TextBlock>
+                <TextBlock Grid.Row="3" Grid.ColumnSpan="3" Text="{Binding Comment}" TextWrapping="Wrap"></TextBlock>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="fileTemplate" >
@@ -104,6 +106,8 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="25"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="25"/>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
                     <Label >First Name:</Label>
@@ -139,9 +143,13 @@
                     <Label Grid.Row="8">ID:</Label>
                     <TextBox Name="idTextBox" Grid.Row="9" Margin="5 0" PreviewTextInput="NumberOnlyTextBoxValidation"/>
 
-                    <Button Name="autoIDButton" Grid.Row="10" Margin="5 10" Click="AutoIdOnClick">Auto ID</Button>
-                    <Button Name="clearFieldButton" Grid.Row="10" Grid.Column="1" Click="ClearNewCustomerFieldsOnClick"  Margin="5 10">Clear Fields</Button>
-                    <Button Name="addNewButton" Grid.Row="10" Grid.Column="2" Margin="5 10" Click="AddNewCustomerOnClick">Add</Button>
+                    <Label Grid.Row="10">Image Folder:</Label>
+                    <TextBox Name="imagePathTextbox" Grid.Row="11" Grid.ColumnSpan="2" Margin="5 0"/>
+                    <Button Name="selectImagePathButton" Grid.Row="11" Grid.Column="2" Margin="5 0" Click="OpenImageFolder">Select Folder</Button>
+                    
+                    <Button Name="autoIDButton" Grid.Row="12" Margin="5 10" Click="AutoIdOnClick">Auto ID</Button>
+                    <Button Name="clearFieldButton" Grid.Row="12" Grid.Column="1" Click="ClearNewCustomerFieldsOnClick"  Margin="5 10">Clear Fields</Button>
+                    <Button Name="addNewButton" Grid.Row="12" Grid.Column="2" Margin="5 10" Click="AddNewCustomerOnClick">Add</Button>
                 </Grid>
             </TabItem>
             <TabItem Name="searchTab" Header="S_earch" IsEnabled="False">
@@ -167,6 +175,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="25"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="auto"/>
@@ -212,8 +222,25 @@
                     <Label Grid.Row="8">ID:</Label>
                     <TextBox Name="idEditTextBox" Grid.Row="9" Margin="5 0" PreviewTextInput="NumberOnlyTextBoxValidation"/>
 
-                    <Button Name="updateEditButton" Grid.ColumnSpan="3" Grid.Row="10" Margin="5 10" Click="UpdateEditOnClick">Update</Button>
+                    <Label Grid.Row="10">Image Folder:</Label>
+                    <TextBox Name="imagePathEditTextbox" Grid.Row="11" Grid.ColumnSpan="2" Margin="5 0"/>
+                    <Button Name="selectImagePathEditButton" Grid.Row="11" Grid.Column="2" Margin="5 0" Click="OpenImageFolder">Select Folder</Button>
+                    
+                    <Button Name="updateEditButton" Grid.ColumnSpan="3" Grid.Row="12" Margin="5 10" Click="UpdateEditOnClick">Update</Button>
                 </Grid>
+            </TabItem>
+            <TabItem Name="imageTab" Header="I_mages">
+                <ListView Height="400"  Name="imageBoxListView" ItemsSource="{Binding imagePaths}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Width="240">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelWidth="300" UriSource="{Binding path}"></BitmapImage>
+                                </Image.Source>
+                            </Image>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </TabItem>
         </TabControl>
 

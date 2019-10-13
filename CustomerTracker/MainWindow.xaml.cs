@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
+using System.IO;
+
 namespace Customer_Tracker
 {
     /// <summary>
@@ -34,7 +36,7 @@ namespace Customer_Tracker
             typeEditComboBox.ItemsSource = Enum.GetValues(typeof(CustomerTypes)).Cast<CustomerTypes>();
             typeComboBox.SelectedIndex = 0;
             typeEditComboBox.SelectedIndex = 0;
-        }
+		}
 
         #region File open, save, and clear
         //load json save file into DataManager
@@ -55,14 +57,21 @@ namespace Customer_Tracker
 
             dm.AddSaveFile(new SaveFile() { Id = dm.SaveFiles.Count, Path = currentSavePath });
 
-            if (dm.GetSaveFileCount() == 1)
+            if (dm.GetSaveFileCount() >= 1)
             {
-                ChangeAllFormState(true, false);
+				if (dm.GetCustomerListCount() != 0)
+					ChangeAllFormState(true, false);
                 initialLoaded = true;
             }
 
             pathComboBox.SelectedItem = dm.SaveFiles[dm.GetIndexFromPath(currentSavePath)];
-        }
+			if (dm.GetCustomerListCount() == 0)
+			{
+				btnClearFile.IsEnabled = true;
+				saveToFileButton.IsEnabled = true;
+				pathComboBox.IsEnabled = true;
+			}
+		}
 
         //clear path and all item in DataManager
         private void BtnClearFile_Click(object sender, RoutedEventArgs e)
@@ -73,6 +82,7 @@ namespace Customer_Tracker
                 MessageBox.Show("Cleared " + save.Path);
                 dm.RemoveSaveFromPath(save.Path);
             }
+			ClearImageListView();
             dm.ClearDataPresent();
             if(dm.GetSaveFileCount() > 0)
             {
@@ -98,7 +108,19 @@ namespace Customer_Tracker
         {
             dm.SwitchToSaveFile(pathComboBox.SelectedIndex);
             currentSavePath = dm.GetPathFromIndex(pathComboBox.SelectedIndex);
-        }
+			if (dm.GetCustomerListCount() == 0)
+			{
+				ChangeAllFormState(false, false);
+				btnClearFile.IsEnabled = true;
+				saveToFileButton.IsEnabled = true;
+				pathComboBox.IsEnabled = true;
+			}
+			else
+			{
+				ChangeAllFormState(true, false);
+			}
+			ClearImageListView();
+		}
 
         private void ChangeAllFormState(bool state, bool ex)
         {
@@ -134,7 +156,7 @@ namespace Customer_Tracker
             c.PostalCode = postalTextBox.Text.Length == 0 ? "Postal Code" : postalTextBox.Text;
             c.PhoneNumber = phoneNumberTextBox.Text.Length == 0 ? "x-xxx-xxx-xxxx" : phoneNumberTextBox.Text;
             c.Type = (CustomerTypes)typeComboBox.SelectedIndex;
-            c.Comment = commentTextBox.Text.Length == 0 ? "No comments" : commentTextBox.Text;
+            c.Comment = commentTextBox.Text.Length == 0 ? "No Comments" : commentTextBox.Text;
             try
             {
                 c.Id = int.Parse(idTextBox.Text);
@@ -143,9 +165,10 @@ namespace Customer_Tracker
                 MessageBox.Show("ID cannot be empty");
                 return;
             }
-            
+			c.ImageFolder = imagePathTextbox.Text.Length == 0 ? "No Image Directory" : imagePathTextbox.Text;
 
-            dm.AddCustomer(c);
+
+			dm.AddCustomer(c);
             ClearTextBoxInputs();
             ChangeAllFormState(true, dm.SaveFiles.Count > 0 ? false : true);
         }
@@ -168,6 +191,7 @@ namespace Customer_Tracker
             typeComboBox.SelectedIndex = 0;
             commentTextBox.Clear();
             idTextBox.Clear();
+			imagePathTextbox.Clear();
         }
 
         private void AutoIdOnClick(object sender, RoutedEventArgs e)
@@ -185,6 +209,22 @@ namespace Customer_Tracker
             }
             idTextBox.Text = (largest + 1).ToString();
         }
+
+		private void OpenImageFolder(object sender, RoutedEventArgs e)
+		{
+			using(var fbd = new System.Windows.Forms.FolderBrowserDialog())
+			{
+				System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+				if(result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+				{
+					if (inEdit)
+						imagePathEditTextbox.Text = fbd.SelectedPath;
+					else
+						imagePathTextbox.Text = fbd.SelectedPath;
+				}
+			}
+		}
         #endregion
 
 
@@ -199,10 +239,22 @@ namespace Customer_Tracker
                 System.Collections.IList items = (System.Collections.IList)CustomerListBox.SelectedItems;
                 var collection = items.Cast<Customer>();
                 dm.RemoveCustomer(collection);
-                if (dm.GetCustomerListCount() == 0 && dm.SaveFiles.Count == 0)
-                    ChangeAllFormState(false, false);
-            }
-        }
+				if (dm.GetCustomerListCount() == 0 && dm.SaveFiles.Count == 0)
+				{
+					ChangeAllFormState(false, false);
+					ClearImageListView();
+				}
+				else if (dm.GetCustomerListCount() == 0 && dm.SaveFiles.Count > 0)
+				{
+					ChangeAllFormState(false, false);
+					btnClearFile.IsEnabled = true;
+					saveToFileButton.IsEnabled = true;
+					pathComboBox.IsEnabled = true;
+					ClearImageListView();
+				}
+			}
+
+		}
 
         #endregion
 
@@ -259,7 +311,7 @@ namespace Customer_Tracker
                             ClearSearch();
                             TabChangeFormStateChange(true, !pathComboBox.HasItems);
                             CustomerListBox.SelectionMode = SelectionMode.Extended;
-                        }
+						}
                         break;
                     }
                 case 1:
@@ -292,9 +344,7 @@ namespace Customer_Tracker
         }
 
         
-        
-
-
+       
         private bool inEdit = false;
         private bool editFilled = false;
         private void UpdateEditField()
@@ -317,11 +367,15 @@ namespace Customer_Tracker
             typeEditComboBox.SelectedIndex = (int)c.Type;
             commentEditTextBox.Text = c.Comment;
             idEditTextBox.Text = c.Id.ToString();
+			imagePathEditTextbox.Text = c.ImageFolder;
             editFilled = true;
         }
 
         private void UpdateEditOnClick(object sender, RoutedEventArgs e)
         {
+			if (CustomerListBox.SelectedIndex >= dm.GetCustomerListCount()|| CustomerListBox.SelectedIndex == -1)
+				return;
+
             Customer c = dm.Customers[CustomerListBox.SelectedIndex];
             int index = dm.GetAllCustomers().IndexOf(c);
             c.FirstName = nameFirstEditTextBox.Text;
@@ -343,6 +397,7 @@ namespace Customer_Tracker
                 MessageBox.Show("ID Cannot be empty");
                 return;
             }
+			c.ImageFolder = imagePathEditTextbox.Text;
             dm.UpdateEditedItemInSearch(c, index, CustomerListBox.SelectedIndex);
             CustomerListBox.Items.Refresh();
             MessageBox.Show("Changes applied to ID: " + c.Id);
@@ -353,6 +408,9 @@ namespace Customer_Tracker
         {
             editFilled = false;
             UpdateEditField();
+			if (CustomerListBox.SelectedIndex >= dm.GetCustomerListCount() || CustomerListBox.SelectedIndex == -1)
+				return;
+			FindImagesInFolder(dm.Customers[CustomerListBox.SelectedIndex].ImageFolder);
         }
 
         #endregion
@@ -369,5 +427,43 @@ namespace Customer_Tracker
         }
 
 
+		private List<ImageItem> imagePaths = new List<ImageItem>();
+
+		private void FindImagesInFolder(string folderPath)
+		{
+			imagePaths.Clear();
+			imageBoxListView.Items.Refresh();
+			if (string.IsNullOrWhiteSpace(folderPath) || !Directory.Exists(folderPath))
+				return;
+
+			foreach (string file in Directory.EnumerateFiles(folderPath, "*.jpg", SearchOption.AllDirectories)
+				.Where(s => s.ToLower().EndsWith(".jpg") || s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpeg")))
+			{
+				imagePaths.Add(new ImageItem(file));
+			}
+
+			foreach(ImageItem s in imagePaths)
+			{
+				Console.WriteLine(s.path);
+			}
+			imageBoxListView.ItemsSource = imagePaths;
+			imageBoxListView.Items.Refresh();
+		}
+
+		private void ClearImageListView()
+		{
+			imageBoxListView.ItemsSource = null;
+			imageBoxListView.Items.Clear();
+		}
+
     }
+
+	public class ImageItem
+	{
+		public string path { get; set; }
+		public ImageItem(string p)
+		{
+			path = p;
+		}
+	}
 }
